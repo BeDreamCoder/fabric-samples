@@ -3,9 +3,12 @@
  */
 
 import { FileSystemWallet, Gateway, X509WalletMixin } from 'fabric-network';
+import * as fs from 'fs';
 import * as path from 'path';
 
-const ccpPath = path.resolve(__dirname, '..', '..', '..', 'first-network', 'connection-org1.json');
+const ccpPath = path.resolve(__dirname, '..', '..', '..', 'basic-network', 'connection.json');
+const ccpJSON = fs.readFileSync(ccpPath, 'utf8');
+const ccp = JSON.parse(ccpJSON);
 
 async function main() {
     try {
@@ -32,7 +35,7 @@ async function main() {
 
         // Create a new gateway for connecting to our peer node.
         const gateway = new Gateway();
-        await gateway.connect(ccpPath, { wallet, identity: 'admin', discovery: { enabled: true, asLocalhost: true } });
+        await gateway.connect(ccp, { wallet, identity: 'admin', discovery: { enabled: false } });
 
         // Get the CA client object from the gateway for interacting with the CA.
         const ca = gateway.getClient().getCertificateAuthority();
@@ -42,7 +45,7 @@ async function main() {
         const secret = await ca.register({ affiliation: 'org1.department1', enrollmentID: 'user1', role: 'client' }, adminIdentity);
         const enrollment = await ca.enroll({ enrollmentID: 'user1', enrollmentSecret: secret });
         const userIdentity = X509WalletMixin.createIdentity('Org1MSP', enrollment.certificate, enrollment.key.toBytes());
-        await wallet.import('user1', userIdentity);
+        wallet.import('user1', userIdentity);
         console.log('Successfully registered and enrolled admin user "user1" and imported it into the wallet');
 
     } catch (error) {

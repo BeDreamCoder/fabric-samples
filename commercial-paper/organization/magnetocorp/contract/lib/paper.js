@@ -72,7 +72,7 @@ class CommercialPaper extends State {
     }
 
     static fromBuffer(buffer) {
-        return CommercialPaper.deserialize(buffer);
+        return CommercialPaper.deserialize(Buffer.from(JSON.parse(buffer)));
     }
 
     toBuffer() {

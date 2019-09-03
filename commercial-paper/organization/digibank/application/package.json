@@ -4,7 +4,6 @@
   "description": "",
   "main": "buy.js",
   "scripts": {
-    "lint": "eslint .",
     "test": "rm -rf _idwallet && node addToWallet.js && node buy.js"
   },
   "keywords": [],

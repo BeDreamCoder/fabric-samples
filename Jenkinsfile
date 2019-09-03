@@ -99,7 +99,7 @@
           steps {
             script {
               // making the output color coded
-              // wrap([$class: 'AnsiColorBuildWrapper', 'colorMapName': 'xterm']) {
+              wrap([$class: 'AnsiColorBuildWrapper', 'colorMapName': 'xterm']) {
                 try {
                   dir("$ROOTDIR/$BASE_DIR/scripts/ci_scripts") {
                     // Run BYFN, EYFN tests
@@ -111,7 +111,7 @@
                   currentBuild.result = 'FAILURE'
                   throw err
                 }
-              // }
+              }
             }
           }
         }
@@ -120,7 +120,7 @@
           steps {
             script {
               // making the output color coded
-              // wrap([$class: 'AnsiColorBuildWrapper', 'colorMapName': 'xterm']) {
+              wrap([$class: 'AnsiColorBuildWrapper', 'colorMapName': 'xterm']) {
                 try {
                   dir("$ROOTDIR/$BASE_DIR/scripts/ci_scripts") {
                     // Run fabcar tests
@@ -132,31 +132,10 @@
                   currentBuild.result = 'FAILURE'
                   throw err
                 }
-              // }
+              }
             }
           }
         }
-        // Run Commercial Paper tests
-        stage('Run Commercial Paper Tests') {
-          steps {
-            script {
-              // making the output color coded
-              // wrap([$class: 'AnsiColorBuildWrapper', 'colorMapName': 'xterm']) {
-                try {
-                  dir("$ROOTDIR/$BASE_DIR/scripts/ci_scripts") {
-                    // Run fabcar tests
-                    sh './ciScript.sh --commercialpaper_Tests'
-                  }
-                }
-                catch (err) {
-                  failure_stage = "commercialpaper_Tests"
-                  currentBuild.result = 'FAILURE'
-                  throw err
-                }
-              // }
-            }
-          }
-        }        
       } // stages
       post {
         always {

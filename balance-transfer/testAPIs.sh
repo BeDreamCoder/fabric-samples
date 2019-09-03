@@ -185,19 +185,16 @@ echo
 
 echo "POST invoke chaincode on peers of Org1 and Org2"
 echo
-VALUES=$(curl -s -X POST \
+curl -s -X POST \
   http://localhost:4000/channels/mychannel/chaincodes/mycc \
   -H "authorization: Bearer $ORG1_TOKEN" \
   -H "content-type: application/json" \
   -d "{
-  \"peers\": [\"peer0.org1.example.com\",\"peer0.org2.example.com\"],
-  \"fcn\":\"move\",
-  \"args\":[\"a\",\"b\",\"10\"]
-}")
-echo $VALUES
-# Assign previous invoke transaction id  to TRX_ID
-MESSAGE=$(echo $VALUES | jq -r ".message")
-TRX_ID=${MESSAGE#*ID: }
+	\"peers\": [\"peer0.org1.example.com\",\"peer0.org2.example.com\"],
+	\"fcn\":\"move\",
+	\"args\":[\"a\",\"b\",\"10\"]
+}"
+echo
 echo
 
 echo "GET query chaincode on peer1 of Org1"
@@ -216,7 +213,7 @@ BLOCK_INFO=$(curl -s -X GET \
   -H "authorization: Bearer $ORG1_TOKEN" \
   -H "content-type: application/json")
 echo $BLOCK_INFO
-# Assign previous block hash to HASH
+# Assign previvious block hash to HASH
 HASH=$(echo $BLOCK_INFO | jq -r ".header.previous_hash")
 echo
 

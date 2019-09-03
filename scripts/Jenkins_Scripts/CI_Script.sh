@@ -30,9 +30,6 @@ Parse_Arguments() {
                       --fabcar_Tests)
                             fabcar_Tests
                             ;;
-                      --commercialpaper_Tests)
-                            commercialpaper_Tests
-                            ;;
                       --pull_Thirdparty_Images)
                             pull_Thirdparty_Images
                             ;;
@@ -142,14 +139,5 @@ fabcar_Tests() {
                  echo "node version ------> $(node -v)"
                  echo "-----------> Execute FabCar Tests"
                  ./fabcar.sh
-                 echo "Also running the compilation and lint tests of CommercialPaper"
-                 make -f ../../commercial-paper/.build/makefile
-}
-
-# run commercial paper tests
-commercialpaper_Tests() {
-                 echo
-                 echo "-----------> Execute Commercial Paper Tests"
-                 make -f ../../commercial-paper/.build/makefile
 }
 Parse_Arguments $@
